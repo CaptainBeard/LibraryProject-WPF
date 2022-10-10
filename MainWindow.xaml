@@ -23,8 +23,8 @@
             <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
         <TextBlock x:Name="libraryLogin" Grid.Column="1" TextWrapping="Wrap" Text="Library login" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBox x:Name="tbUsername" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" Text="Username" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="120" MinHeight="22"/>
-        <TextBox x:Name="tbPassword" Grid.Column="3" Grid.Row="2" TextWrapping="Wrap" Text="Password" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="120" MinHeight="22"/>
         <Button x:Name="btnLogin" Grid.Column="3" Content="Login" Grid.Row="3" FontSize="15" Margin="20,30,20,0" Grid.RowSpan="2" Click="btnLogin_Click"/>
+        <TextBox x:Name="tbUsername" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" Text="Username" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="120" MinHeight="22" TextChanged="tbUsername_TextChanged"/>
+        <TextBox x:Name="tbPassword" Grid.Column="3" Grid.Row="2" TextWrapping="Wrap" Text="Password" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="120" MinHeight="22" TextChanged="tbPassword_TextChanged"/>
     </Grid>
 </Window>

@@ -16,6 +16,7 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using library_project_wpf;
 using System.Net.Http;
+using System.Threading;
 
 namespace library_project_wpf
 {
@@ -25,24 +26,23 @@ namespace library_project_wpf
         public MainWindow()
         {
             InitializeComponent();
-            initializeTextBoxes();
+            InitializeTextBoxes();
+            BtnLoginChecker();
         }
 
-        private void initializeTextBoxes()
+        private void InitializeTextBoxes()
         {
-            string textUsername = "Username";
             tbUsername.Foreground = Brushes.Gray;
             tbPassword.Foreground = Brushes.Gray;
-            tbUsername.Text = textUsername;
+            tbUsername.Text = "Username";
             tbPassword.Text = "Password";
-            //tbUsername.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_GotKeyboardFocus);
-            //tbUsername.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_LostKeyboardFocus);
-            //tbPassword.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_GotKeyboardFocus);
-            //tbPassword.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(tb_LostKeyboardFocus);
-            
+            tbUsername.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(TbFocus);
+            tbPassword.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(TbFocus);
+            tbUsername.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(TbLostFocus);
+            tbPassword.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(TbLostFocus);
         }
 
-        private void tb_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        private void TbFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             if (sender is TextBox)
             {
@@ -55,18 +55,31 @@ namespace library_project_wpf
             }
         }
 
-
-        private void tb_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        private void TbLostFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            //Make sure sender is the correct Control.
             if (sender is TextBox)
             {
-                //If nothing was entered, reset default text.
+                //If nothing was entered, reset default text
                 if (((TextBox)sender).Text.Trim().Equals(""))
                 {
                     ((TextBox)sender).Foreground = Brushes.Gray;
-                    ((TextBox)sender).Text = "Text";
+                    if (tbUsername.IsFocused)
+                        ((TextBox)sender).Text = "Username";
+                    if (tbPassword.IsFocused)
+                        ((TextBox)sender).Text = "Password";
                 }
+            }
+        }
+
+        private void BtnLoginChecker()
+        {
+            if (tbUsername.Text == "Username" || tbPassword.Text == "Password" || tbUsername.Text.Length < 4 || tbPassword.Text.Length < 4)
+            {
+                btnLogin.IsEnabled = false;
+            }
+            else
+            {
+                btnLogin.IsEnabled = true;
             }
         }
 
@@ -83,8 +96,8 @@ namespace library_project_wpf
                 Debug.WriteLine(response);
                 if (string.Compare(response, "true") == 0)
                 {
-                    Console.WriteLine("Login OK");
-                    MessageBox.Show("Login OK");
+                    Console.WriteLine("You are logged in");
+                    MessageBox.Show("You are logged in");
                     Singleton si = Singleton.Instance;
                     si.Username = username;
                     si.Password = password;
@@ -95,16 +108,14 @@ namespace library_project_wpf
                 }
                 else
                 {
-                    MessageBox.Show("Wrong username/password");
-                    tbUsername.Clear();
-                    tbPassword.Clear();
+                    MessageBox.Show("Username and password don't match.");
+                    InitializeTextBoxes();
                 }
             }
             else
             {
-                MessageBox.Show("Something went wrong");
-                tbUsername.Clear();
-                tbPassword.Clear();
+                MessageBox.Show("Something went wrong.");
+                InitializeTextBoxes();
             }
         }
         static async Task<string> LoginToLibrary(string username, string password)
@@ -121,6 +132,16 @@ namespace library_project_wpf
             response = await result.Content.ReadAsStringAsync();
             return response;
         }
+        private void tbUsername_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            BtnLoginChecker();
+        }
+
+        private void tbPassword_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            BtnLoginChecker();
+        }
+
     }
 }
 
