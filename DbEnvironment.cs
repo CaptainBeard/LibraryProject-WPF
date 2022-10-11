@@ -10,7 +10,7 @@ namespace library_project_wpf
     {
         public static string GetBaseUrl()
         {
-            return "https://localhost:7161/api";
+            return "https://localhost:7161";
             //return "https://my-dotnet-university.herokuapp.com/api";
         }
     }

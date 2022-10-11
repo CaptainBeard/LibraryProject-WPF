@@ -122,7 +122,7 @@ namespace library_project_wpf
         {
             string base_url = DbEnvironment.GetBaseUrl();
             var response = string.Empty;
-            var url = base_url + "/login";
+            var url = base_url + "/api/login";
             User objectUser = new User(username, password);
 
             var json = JsonConvert.SerializeObject(objectUser);

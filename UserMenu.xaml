@@ -5,12 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:library_project_wpf"
         mc:Ignorable="d"
-        Title="Main menu" Height="350" Width="350">
+        Title="Main menu" Height="350" Width="500">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="203.5"/>
+            <ColumnDefinition Width="196.5"/>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
@@ -26,11 +27,12 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
-        <TextBlock x:Name="MainMenu" Grid.Column="2" Grid.Row="2" TextWrapping="Wrap" Text="Main menu:" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBlock x:Name="tbWelcomeText" Grid.Column="2" Grid.Row="1" TextWrapping="Wrap" Text="Welcome, Firstname Lastname!" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15"/>
-        <Button x:Name="btnUserProfilie" Grid.Column="2" Content="User profile" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Width="160" FontSize="20" Click="btnUserProfilie_Click"/>
-        <Button x:Name="btnBookSearch" Grid.Column="2" Content="Book search" Grid.Row="6" HorizontalAlignment="Center" VerticalAlignment="Center" Width="160" FontSize="20"/>
-        <Button x:Name="btnLogout" Grid.Column="2" Content="Logout" Grid.Row="8" HorizontalAlignment="Center" VerticalAlignment="Center" Width="160" Click="btnLogout_Click" FontSize="20"/>
+        <TextBlock x:Name="MainMenu" Grid.Column="3" Grid.Row="2" TextWrapping="Wrap" Text="Main menu:" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,7,0,0"/>
+        <TextBlock x:Name="tbWelcomeText" Grid.Column="2" Grid.Row="1" TextWrapping="Wrap" Text="Welcome, Firstname Lastname!" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" Margin="10,0,0,0" Width="357" Grid.ColumnSpan="2"/>
+        <Button x:Name="btnUserProfilie" Grid.Column="3" Content="User profile" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Width="160" FontSize="20" Click="btnUserProfilie_Click"/>
+        <Button x:Name="btnBookSearch" Grid.Column="3" Content="Book search" Grid.Row="6" HorizontalAlignment="Center" VerticalAlignment="Center" Width="160" FontSize="20"/>
+        <Button x:Name="btnLogout" Grid.Column="3" Content="Logout" Grid.Row="8" HorizontalAlignment="Center" VerticalAlignment="Center" Width="160" Click="btnLogout_Click" FontSize="20"/>
+        <Image x:Name="imgUserAvatar" Grid.Column="2" HorizontalAlignment="Left" Height="100" Margin="48,0,0,0" Grid.RowSpan="4" Grid.Row="3" VerticalAlignment="Top" Width="100"/>
 
     </Grid>
 </Window>
