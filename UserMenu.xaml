@@ -32,7 +32,8 @@
         <Button x:Name="btnUserProfilie" Grid.Column="3" Content="User profile" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Width="160" FontSize="20" Click="btnUserProfilie_Click"/>
         <Button x:Name="btnBookSearch" Grid.Column="3" Content="Book search" Grid.Row="6" HorizontalAlignment="Center" VerticalAlignment="Center" Width="160" FontSize="20"/>
         <Button x:Name="btnLogout" Grid.Column="3" Content="Logout" Grid.Row="8" HorizontalAlignment="Center" VerticalAlignment="Center" Width="160" Click="btnLogout_Click" FontSize="20"/>
-        <Image x:Name="imgUserAvatar" Grid.Column="2" HorizontalAlignment="Left" Height="100" Margin="48,0,0,0" Grid.RowSpan="4" Grid.Row="3" VerticalAlignment="Top" Width="100"/>
-
+        <Border BorderThickness="1" BorderBrush="#FF000000" VerticalAlignment="Top" Height="130" Margin="36,0,36,0" Grid.Column="2" Grid.Row="3" Grid.RowSpan="6">
+            <Image x:Name="imgUserAvatar"/>
+        </Border>
     </Grid>
 </Window>

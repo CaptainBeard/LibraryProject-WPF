@@ -27,17 +27,14 @@ namespace library_project_wpf
             InitializeComponent();
             WelcomeText();
         }
-
         private void WelcomeText()
         {
             var data = Task.Run(() => GetUserData());
             data.Wait();
             if (data.Result.Length > 0)
             {
-            //https://localhost:7161/images/default.png
                 JObject j = JObject.Parse(data.Result);
                 tbWelcomeText.Text = "Welcome, " + j["firstname"].ToString() + " " + j["lastname"].ToString() + "!";
-                //Image imgUserAvatar = new Image();
                 BitmapImage biUserAvatar = new BitmapImage();
                 biUserAvatar.BeginInit();
                 biUserAvatar.UriSource = new Uri(DbEnvironment.GetBaseUrl() + "/images/" + j["image"].ToString(), UriKind.RelativeOrAbsolute);
@@ -59,19 +56,17 @@ namespace library_project_wpf
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(authData));
             HttpResponseMessage result = await client.GetAsync(url);
             response = await result.Content.ReadAsStringAsync();
-            //Console.WriteLine(response);
             return response;
         }
-
+        private void btnUserProfilie_Click(object sender, RoutedEventArgs e)
+        {
+            UserProfile UserMenu = new UserProfile();
+            MainMenu.IsEnabled = false;
+            UserMenu.ShowDialog();
+        }
         private void btnLogout_Click(object sender, RoutedEventArgs e)
         {
             Close();
-        }
-
-        private void btnUserProfilie_Click(object sender, RoutedEventArgs e)
-        {
-            UserProfile objectUserProfile = new UserProfile();
-            objectUserProfile.Show();
         }
     }
 }

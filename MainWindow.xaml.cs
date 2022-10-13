@@ -101,8 +101,8 @@ namespace library_project_wpf
                     Singleton si = Singleton.Instance;
                     si.Username = username;
                     si.Password = password;
-                    UserMenu objectMainMenu = new UserMenu();
-                    objectMainMenu.Show();
+                    UserMenu MainMenu = new UserMenu();
+                    MainMenu.Show();
                     this.Close();
 
                 }
