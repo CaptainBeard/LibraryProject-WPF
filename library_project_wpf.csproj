@@ -64,6 +64,7 @@
     <Compile Include="DbEnvironment.cs" />
     <Compile Include="Singleton.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="Login.cs" />
     <Compile Include="UserMenu.xaml.cs">
       <DependentUpon>UserMenu.xaml</DependentUpon>
     </Compile>

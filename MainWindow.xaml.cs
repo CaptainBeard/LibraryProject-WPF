@@ -123,9 +123,8 @@ namespace library_project_wpf
             string base_url = DbEnvironment.GetBaseUrl();
             var response = string.Empty;
             var url = base_url + "/api/login";
-            User objectUser = new User(username, password);
-
-            var json = JsonConvert.SerializeObject(objectUser);
+            Login objectLogin = new Login(username, password);
+            var json = JsonConvert.SerializeObject(objectLogin);
             var postData = new StringContent(json, Encoding.UTF8, "application/json");
             var client = new HttpClient();
             HttpResponseMessage result = await client.PostAsync(url, postData);

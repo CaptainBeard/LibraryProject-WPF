@@ -17,9 +17,6 @@ using Newtonsoft.Json.Linq;
 
 namespace library_project_wpf
 {
-    /// <summary>
-    /// Interaction logic for UserMenu.xaml
-    /// </summary>
     public partial class UserMenu : Window
     {
         public UserMenu()
@@ -61,7 +58,6 @@ namespace library_project_wpf
         private void btnUserProfilie_Click(object sender, RoutedEventArgs e)
         {
             UserProfile UserMenu = new UserProfile();
-            MainMenu.IsEnabled = false;
             UserMenu.ShowDialog();
         }
         private void btnLogout_Click(object sender, RoutedEventArgs e)
