@@ -23,10 +23,18 @@ namespace library_project_wpf
         {
             InitializeComponent();
             WelcomeText();
+            UserData.myUserMenu = this;
+        }
+
+        public void display(string itemID)
+        {
+            // here assign some properties to the item
+            this.AddChild(itemID);
+            
         }
         private void WelcomeText()
         {
-            var data = Task.Run(() => GetUserData());
+            var data = Task.Run(() => UserData.GetUserData());
             data.Wait();
             if (data.Result.Length > 0)
             {
@@ -40,26 +48,37 @@ namespace library_project_wpf
                 imgUserAvatar.Source = biUserAvatar;
             }
         }
-        static async Task<string> GetUserData()
-        {
-            Singleton si = Singleton.Instance;
-            string username = si.Username;
-            var password = si.Password;
-            var authData = Encoding.ASCII.GetBytes($"{username}:{password}");
-            Console.WriteLine(username + password);
-            var response = string.Empty;
-            var url = DbEnvironment.GetBaseUrl() + "/api/Userdata/User/" + username;
-            var client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(authData));
-            HttpResponseMessage result = await client.GetAsync(url);
-            response = await result.Content.ReadAsStringAsync();
-            return response;
-        }
+
+        //static async Task<string> GetUserData()
+        //{
+        //    Singleton si = Singleton.Instance;
+        //    string username = si.Username;
+        //    var password = si.Password;
+        //    var authData = Encoding.ASCII.GetBytes($"{username}:{password}");
+        //    Console.WriteLine(username + password);
+        //    var response = string.Empty;
+        //    var url = DbEnvironment.GetBaseUrl() + "/api/Userdata/User/" + username;
+        //    var client = new HttpClient();
+        //    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(authData));
+        //    HttpResponseMessage result = await client.GetAsync(url);
+        //    response = await result.Content.ReadAsStringAsync();
+        //    return response;
+        //}
+
         private void btnUserProfilie_Click(object sender, RoutedEventArgs e)
         {
             UserProfile UserMenu = new UserProfile();
+            UserMenu.DataChanged += InformationUpdate;
+            UserMenu.Top = this.Top + 150;
+            UserMenu.Left = this.Left + 150;
             UserMenu.ShowDialog();
         }
+
+        private void InformationUpdate(object sender, EventArgs e)
+        {
+            WelcomeText();
+        }
+
         private void btnLogout_Click(object sender, RoutedEventArgs e)
         {
             Close();

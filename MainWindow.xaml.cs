@@ -26,54 +26,12 @@ namespace library_project_wpf
         public MainWindow()
         {
             InitializeComponent();
-            InitializeTextBoxes();
             BtnLoginChecker();
-        }
-
-        private void InitializeTextBoxes()
-        {
-            tbUsername.Foreground = Brushes.Gray;
-            tbPassword.Foreground = Brushes.Gray;
-            tbUsername.Text = "Username";
-            tbPassword.Text = "Password";
-            tbUsername.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(TbFocus);
-            tbPassword.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(TbFocus);
-            tbUsername.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(TbLostFocus);
-            tbPassword.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(TbLostFocus);
-        }
-
-        private void TbFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            if (sender is TextBox)
-            {
-                //If nothing has been entered yet.
-                if (((TextBox)sender).Foreground == Brushes.Gray)
-                {
-                    ((TextBox)sender).Text = "";
-                    ((TextBox)sender).Foreground = Brushes.Black;
-                }
-            }
-        }
-
-        private void TbLostFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            if (sender is TextBox)
-            {
-                //If nothing was entered, reset default text
-                if (((TextBox)sender).Text.Trim().Equals(""))
-                {
-                    ((TextBox)sender).Foreground = Brushes.Gray;
-                    if (tbUsername.IsFocused)
-                        ((TextBox)sender).Text = "Username";
-                    if (tbPassword.IsFocused)
-                        ((TextBox)sender).Text = "Password";
-                }
-            }
         }
 
         private void BtnLoginChecker()
         {
-            if (tbUsername.Text == "Username" || tbPassword.Text == "Password" || tbUsername.Text.Length < 4 || tbPassword.Text.Length < 4)
+            if (tbUsername.Text.Length < 4 || ckbShowPassword.IsChecked == false && tbPasswordBox.Password.Length < 4 || ckbShowPassword.IsChecked == true && tbPasswordTxtBox.Text.Length < 4)
             {
                 btnLogin.IsEnabled = false;
             }
@@ -83,12 +41,42 @@ namespace library_project_wpf
             }
         }
 
+        private void ShowPassword_Checked(object sender, RoutedEventArgs e)
+        {
+            tbPasswordTxtBox.Text = tbPasswordBox.Password;
+            tbPasswordBox.Visibility = Visibility.Collapsed;
+            tbPasswordTxtBox.Visibility = Visibility.Visible;
+        }
+        private void ShowPassword_Unchecked(object sender, RoutedEventArgs e)
+        {
+            tbPasswordBox.Password = tbPasswordTxtBox.Text;
+            tbPasswordBox.Visibility = Visibility.Visible;
+            tbPasswordTxtBox.Visibility = Visibility.Collapsed;
+        }
+
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
             string username = tbUsername.Text;
-            string password = tbPassword.Text;
+            string password = "";
+            if (ckbShowPassword.IsChecked == false)
+            {
+                password = tbPasswordBox.Password.ToString();
+            }
+            else
+            {
+                password = tbPasswordTxtBox.Text;
+            }
             var data = Task.Run(() => LoginToLibrary(username, password));
-            data.Wait();
+            try
+            {
+                data.Wait();
+            }
+            catch (Exception)
+            {
+
+                MessageBox.Show("Connection cannot be established");
+                return;
+            }
 
             if (data.Result.Length > 0)
             {
@@ -102,6 +90,7 @@ namespace library_project_wpf
                     si.Username = username;
                     si.Password = password;
                     UserMenu MainMenu = new UserMenu();
+                    MainMenu.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                     MainMenu.Show();
                     this.Close();
 
@@ -109,13 +98,12 @@ namespace library_project_wpf
                 else
                 {
                     MessageBox.Show("Username and password don't match.");
-                    InitializeTextBoxes();
+                    tbPasswordBox.Clear();
                 }
             }
             else
             {
                 MessageBox.Show("Something went wrong.");
-                InitializeTextBoxes();
             }
         }
         static async Task<string> LoginToLibrary(string username, string password)
@@ -131,16 +119,21 @@ namespace library_project_wpf
             response = await result.Content.ReadAsStringAsync();
             return response;
         }
+
         private void tbUsername_TextChanged(object sender, TextChangedEventArgs e)
         {
             BtnLoginChecker();
         }
 
-        private void tbPassword_TextChanged(object sender, TextChangedEventArgs e)
+        private void tbPassword_PasswordChanged(object sender, RoutedEventArgs e)
         {
             BtnLoginChecker();
         }
 
+        private void tbPasswordTxtBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            BtnLoginChecker();
+        }
     }
 }
 

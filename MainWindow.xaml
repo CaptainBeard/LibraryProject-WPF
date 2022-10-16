@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:library_project_wpf"
         mc:Ignorable="d"
-        Title="Login" Height="250" Width="400">
+        Title="Login" Height="250" Width="400"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20*"/>
@@ -22,9 +24,17 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
-        <TextBlock x:Name="libraryLogin" Grid.Column="1" TextWrapping="Wrap" Text="Library login" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBlock x:Name="libraryLogin" Grid.Column="1" Text="Library login" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Button x:Name="btnLogin" Grid.Column="3" Content="Login" Grid.Row="3" FontSize="15" Margin="20,30,20,0" Grid.RowSpan="2" Click="btnLogin_Click"/>
-        <TextBox x:Name="tbUsername" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" Text="Username" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="120" MinHeight="22" TextChanged="tbUsername_TextChanged"/>
-        <TextBox x:Name="tbPassword" Grid.Column="3" Grid.Row="2" TextWrapping="Wrap" Text="Password" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="120" MinHeight="22" TextChanged="tbPassword_TextChanged"/>
+        <GroupBox Grid.Column="1" Header="Username" Grid.Row="1" Margin="0,21,0,24" Grid.RowSpan="3">
+            <TextBox x:Name="tbUsername" Grid.Column="1" Grid.Row="2" FontSize="15" MinWidth="120" MinHeight="22" TextChanged="tbUsername_TextChanged"/>
+        </GroupBox>
+        <GroupBox Grid.Column="3" Header="Password" Grid.Row="1" Margin="0,21,0,24" Grid.RowSpan="3">
+            <StackPanel>
+                <PasswordBox x:Name="tbPasswordBox" FontSize="15" PasswordChanged="tbPassword_PasswordChanged"/>
+                <TextBox x:Name="tbPasswordTxtBox" FontSize="15" Visibility="Collapsed" TextChanged="tbPasswordTxtBox_TextChanged"/>
+            </StackPanel>
+        </GroupBox>
+        <CheckBox x:Name="ckbShowPassword" Grid.Column="3" Content="Show password" Unchecked="ShowPassword_Unchecked"  Checked="ShowPassword_Checked" HorizontalAlignment="Left" Margin="6,3,0,0" Grid.Row="3" VerticalAlignment="Top"/>
     </Grid>
 </Window>

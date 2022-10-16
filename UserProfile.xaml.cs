@@ -21,6 +21,9 @@ namespace library_project_wpf
 {
     public partial class UserProfile : Window
     {
+        public delegate void DataChangedEventHandler(object sender, EventArgs e);
+
+        public event DataChangedEventHandler DataChanged;
         public UserProfile()
         {
             InitializeComponent();
@@ -37,6 +40,7 @@ namespace library_project_wpf
             tbStreetAddress.IsEnabled = value;
             tbPostalCode.IsEnabled = value;
             btnSave.IsEnabled = value;
+            btnNewInformation.IsEnabled = !value;
         }
 
         private void FindData()
@@ -46,7 +50,6 @@ namespace library_project_wpf
             if (data.Result.Length > 0)
             {
                 JObject j = JObject.Parse(data.Result);
-                //tbId.Text = j["id_user"].ToString();
                 tbUsername.Text = j["username"].ToString();
                 tbPassword.Text = j["password"].ToString();
                 tbFirstname.Text = j["firstname"].ToString();
@@ -116,10 +119,9 @@ namespace library_project_wpf
             return response;
         }
 
-        private void btnClose_Click(object sender, RoutedEventArgs e)
+        public void btnClose_Click(object sender, RoutedEventArgs e)
         {
             Close();
-            
         }
 
         private void btnNewInformation_Click(object sender, RoutedEventArgs e)
@@ -131,6 +133,18 @@ namespace library_project_wpf
         {
             ToggleControls(false);
             UpdateData();
+            DataChangedEventHandler handler = DataChanged;
+            if (handler != null)
+            {
+                handler(this, new EventArgs());
+            }
+        }
+
+        private void btnNewPassword_Click(object sender, RoutedEventArgs e)
+        {
+            NewPassword ChangePassword = new NewPassword();
+            ChangePassword.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            ChangePassword.ShowDialog();
         }
     }
 }
