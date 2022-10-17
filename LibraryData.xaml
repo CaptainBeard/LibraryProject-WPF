@@ -1,0 +1,34 @@
+﻿<Window x:Class="library_project_wpf.LibraryData"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:library_project_wpf"
+        mc:Ignorable="d"
+        Title="Library Database" Height="250" Width="250"
+        ResizeMode="NoResize">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30*"/>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="30*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="15"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="15"/>
+            <RowDefinition Height="40*"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="LibraryDatabase" Text="Library database" FontSize="25" Grid.RowSpan="2" Grid.ColumnSpan="5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Button x:Name="btnSearch" Grid.Column="2" Content="Search" Grid.Row="2" FontSize="15" Click="btnSearch_Click"/>
+        <Button x:Name="btnLoans" Grid.Column="2" Content="Loans" Grid.Row="4" FontSize="15"/>
+        <Button x:Name="btnClose" Grid.Column="2" Content="Close" Grid.Row="6" FontSize="15" Click="btnClose_Click"/>
+    </Grid>
+</Window>

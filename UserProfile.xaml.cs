@@ -169,6 +169,7 @@ namespace library_project_wpf
                 }
 
             }
+            Close();
         }
 
         private void btnNewInformation_Click(object sender, RoutedEventArgs e)
