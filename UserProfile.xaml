@@ -53,12 +53,10 @@
         <Border BorderBrush="Black" BorderThickness="1" Grid.Column="5" HorizontalAlignment="Center" Height="180" Grid.RowSpan="9" Grid.Row="1" VerticalAlignment="Center" Width="180">
             <Image x:Name="imgUserAvatar"/>
         </Border>
-        <Button x:Name="btnNewImage" Grid.Column="5" Content="Upload new image" HorizontalAlignment="Center" Grid.Row="10" VerticalAlignment="Top" Height="23" Width="160" Grid.RowSpan="2" FontSize="15"/>
+        <Button x:Name="btnNewImage" Grid.Column="5" Content="Upload new image" HorizontalAlignment="Center" Grid.Row="10" VerticalAlignment="Top" Height="23" Width="160" Grid.RowSpan="2" FontSize="15" Click="btnNewImage_Click"/>
         <Button x:Name="btnNewInformation" Grid.Column="1" Content="Change" HorizontalAlignment="Center" Grid.Row="15" VerticalAlignment="Top" Height="23" Width="110" FontSize="15" Grid.RowSpan="2" Margin="0,1,0,0" Click="btnNewInformation_Click"/>
         <Button x:Name="btnSave" Grid.Column="3" Content="Save" HorizontalAlignment="Left" Grid.Row="15" VerticalAlignment="Top" Height="23" Width="110" FontSize="15" Margin="0,1,0,0" Grid.RowSpan="2" Click="btnSave_Click"/>
         <Button x:Name="btnClose" Grid.Column="5" Content="Close" HorizontalAlignment="Center" Grid.Row="16" VerticalAlignment="Top" Height="23" Width="160" FontSize="15" Click="btnClose_Click" Margin="0,53,0,0"/>
         <Button x:Name="btnNewPassword" Grid.Column="5" Content="Change password" HorizontalAlignment="Center" Grid.Row="12" VerticalAlignment="Top" Height="23" Width="160" FontSize="15" Margin="0,10,0,0" Grid.RowSpan="2" Click="btnNewPassword_Click"/>
-        <TextBlock x:Name="tbPassword" Grid.Column="1" Grid.Row="16" Text="Password" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,42,0,0"/>
-        <TextBlock x:Name="tbImage" Grid.Column="3" Grid.Row="16" Text="Image" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,17,0,0"/>
     </Grid>
 </Window>

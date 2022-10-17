@@ -62,6 +62,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DbEnvironment.cs" />
+    <Compile Include="ImgFile.cs" />
+    <Compile Include="ImgName.cs" />
     <Compile Include="Pwd.cs" />
     <Compile Include="UserData.cs" />
     <Compile Include="NewPassword.xaml.cs">

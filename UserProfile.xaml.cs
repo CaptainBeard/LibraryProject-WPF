@@ -16,14 +16,20 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Newtonsoft.Json;
 using System.Reflection.Emit;
+using Microsoft.Win32;
+using static System.Net.Mime.MediaTypeNames;
+using System.Net;
 
 namespace library_project_wpf
 {
     public partial class UserProfile : Window
     {
-        public delegate void DataChangedEventHandler(object sender, EventArgs e);
 
+        // Updatase data on previous window
+        public delegate void DataChangedEventHandler(object sender, EventArgs e);
         public event DataChangedEventHandler DataChanged;
+        //
+
         public UserProfile()
         {
             InitializeComponent();
@@ -51,13 +57,11 @@ namespace library_project_wpf
             {
                 JObject j = JObject.Parse(data.Result);
                 tbUsername.Text = j["username"].ToString();
-                tbPassword.Text = j["password"].ToString();
                 tbFirstname.Text = j["firstname"].ToString();
                 tbLastname.Text = j["lastname"].ToString();
                 tbPhoneNumber.Text = j["phone"].ToString();
                 tbStreetAddress.Text = j["streetaddress"].ToString();
                 tbPostalCode.Text = j["postalcode"].ToString();
-                tbImage.Text = j["image"].ToString();
 
                 BitmapImage biUserAvatar = new BitmapImage();
                 biUserAvatar.BeginInit();
@@ -67,25 +71,6 @@ namespace library_project_wpf
                 imgUserAvatar.Source = biUserAvatar;
             }
         }
-        private void UpdateData()
-        {
-            string username = tbUsername.Text;
-            string firstname = tbFirstname.Text;
-            string lastname = tbLastname.Text;
-            string phone = tbPhoneNumber.Text;
-            string streetaddress = tbStreetAddress.Text;
-            string postalcode = tbPostalCode.Text;
-
-            string image = tbImage.Text;
-            string password = tbPassword.Text;
-            var data = Task.Run(() => SendData(username, password, firstname, lastname, phone, streetaddress, postalcode, image));
-            data.Wait();
-            if (data.Result.Length > 0)
-            {
-                MessageBox.Show("Your personal information has been changed.");
-            }
-        }
-
         static async Task<string> GetUserData()
         {
             Singleton si = Singleton.Instance;
@@ -101,14 +86,29 @@ namespace library_project_wpf
             response = await result.Content.ReadAsStringAsync();
             return response;
         }
-        static async Task<string> SendData(string username, string password, string firstname, string lastname, string phone, string streetaddress, string postalcode, string image)
+
+        private void UpdateData()
+        {
+            string username = tbUsername.Text;
+            string firstname = tbFirstname.Text;
+            string lastname = tbLastname.Text;
+            string phone = tbPhoneNumber.Text;
+            string streetaddress = tbStreetAddress.Text;
+            string postalcode = tbPostalCode.Text;
+            var data = Task.Run(() => SendData(username, firstname, lastname, phone, streetaddress, postalcode));
+            data.Wait();
+            if (data.Result.Length > 0)
+            {
+                MessageBox.Show("Your personal information has been changed");
+            }
+        }
+
+        static async Task<string> SendData(string username, string firstname, string lastname, string phone, string streetaddress, string postalcode)
         {
             string base_url = DbEnvironment.GetBaseUrl();
             var response = string.Empty;
             var url = base_url + "/api/Userdata/user/" + username;
-            Console.WriteLine(url);
-            Console.WriteLine(username + " " + firstname + " " + lastname + " " + phone + " " + streetaddress + " " + postalcode);
-            User objectUser = new User(username, password, firstname, lastname, phone, streetaddress, postalcode, image);
+            User objectUser = new User(username, firstname, lastname, phone, streetaddress, postalcode);
             var json = JsonConvert.SerializeObject(objectUser);
             var postData = new StringContent(json, Encoding.UTF8, "application/json");
             var client = new HttpClient();
@@ -118,10 +118,57 @@ namespace library_project_wpf
             Console.WriteLine(response);
             return response;
         }
+        private void ChangeImageName(string image)
+        {
+            Singleton si = Singleton.Instance;
+            string username = si.Username;
+            var data = Task.Run(() => SendImageName(username, image));
+            data.Wait();
+            if (data.Result.Length > 0)
+            {
+                MessageBox.Show("Your image has been changed");
+            }
+        }
+
+        static async Task<string> SendImageName(string username, string image)
+        {
+
+            string base_url = DbEnvironment.GetBaseUrl();
+            var response = string.Empty;
+            var url = base_url + "/api/Userdata/Image/" + username;
+            ImgName objectUser = new ImgName(username, image);
+            var json = JsonConvert.SerializeObject(objectUser);
+            var postData = new StringContent(json, Encoding.UTF8, "application/json");
+            var client = new HttpClient();
+            HttpResponseMessage result = await client.PutAsync(url, postData);
+            response = await result.Content.ReadAsStringAsync();
+            Console.WriteLine(result);
+            Console.WriteLine(response);
+            return response;
+        }
+        private void ChangeImageFile(OpenFileDialog image)
+        {
+            // Sends image to the web api
+            string base_url = DbEnvironment.GetBaseUrl();
+            var url = base_url + "/api/Upload";
+            var client = new WebClient();
+            client.UploadFile(url, "POST", image.FileName);
+        }
 
         public void btnClose_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            if (btnSave.IsEnabled == true)
+            {
+                if (MessageBox.Show("Are you sure you want to close without saving?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                {
+                    return;
+                }
+                else
+                {
+                    Close();
+                }
+
+            }
         }
 
         private void btnNewInformation_Click(object sender, RoutedEventArgs e)
@@ -133,6 +180,7 @@ namespace library_project_wpf
         {
             ToggleControls(false);
             UpdateData();
+            // Updates data on the UserMenu
             DataChangedEventHandler handler = DataChanged;
             if (handler != null)
             {
@@ -145,6 +193,46 @@ namespace library_project_wpf
             NewPassword ChangePassword = new NewPassword();
             ChangePassword.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             ChangePassword.ShowDialog();
+        }
+
+        private void btnNewImage_Click(object sender, RoutedEventArgs e)
+        {
+            string fullPath;
+            string imageName;
+            string[] partsFileName;
+            string[] FileNameWithoutFileExtension;
+            string fileNameToSend;
+            OpenFileDialog op = new OpenFileDialog();
+            op.Title = "Select a profile picture";
+            op.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
+                "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
+                "Portable Network Graphic (*.png)|*.png";
+            try
+            {
+                if (op.ShowDialog() == true)
+                {
+                    fullPath = op.FileName;
+                    partsFileName = fullPath.Split('\\');
+                    imageName = partsFileName[partsFileName.Length - 1];
+                    FileNameWithoutFileExtension = imageName.Split('.');
+                    fileNameToSend = FileNameWithoutFileExtension[0] + ".png";
+                    ChangeImageName(fileNameToSend);
+                    ChangeImageFile(op);
+                    // Updates user data on UserMenu
+                    DataChangedEventHandler handler = DataChanged;
+                    if (handler != null)
+                    {
+                        handler(this, new EventArgs());
+                    }
+                    // Updates user data on this window
+                    FindData();
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Something went wrong");
+            }
+
         }
     }
 }
