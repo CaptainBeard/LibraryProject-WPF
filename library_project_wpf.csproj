@@ -61,6 +61,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Book.cs" />
     <Compile Include="DbEnvironment.cs" />
     <Compile Include="ImgFile.cs" />
     <Compile Include="ImgName.cs" />

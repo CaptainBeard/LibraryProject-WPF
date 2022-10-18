@@ -14,12 +14,11 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Newtonsoft.Json.Linq;
+using System.Xml.Linq;
 
 namespace library_project_wpf
 {
-    /// <summary>
-    /// Interaction logic for Search.xaml
-    /// </summary>
     public partial class Search : Window
     {
         public Search()
@@ -31,20 +30,16 @@ namespace library_project_wpf
         {
             var data = Task.Run(() => GetAllBooks());
             data.Wait();
-            Console.WriteLine(data.Result);
-            if (data.Result.Length > 3) //Result is not []
+            if (data.Result.Length > 0)
             {
                 dynamic book_data = JsonConvert.DeserializeObject(data.Result);
-
-                gridBooks.ItemsSource = book_data;//writes the data to DataGrid
-
-                string books = "";
+                List<Book> book_list = new List<Book>();
                 foreach (var book in book_data)
                 {
-                    books += book.name + " | " + book.author + " | " + "\n";
+                    Console.WriteLine(book);
+                    book_list.Add(new Book() { Name = book.name, Author = book.author, Language = book.language, Year = book.year, Isbn = book.isbn, Status = book.status });
                 }
-                //txtBooks.Text = book_data;*/
-                Console.WriteLine(books);
+                gridBooks.ItemsSource = book_list;
             }
             else
             {
@@ -54,7 +49,7 @@ namespace library_project_wpf
         static async Task<string> GetAllBooks()
         {
             var response = string.Empty;
-            var url = DbEnvironment.GetBaseUrl() + "/api/Book";
+            var url = DbEnvironment.GetBaseUrl() + "/api/Bookdata";
             var client = new HttpClient();
             HttpResponseMessage result = await client.GetAsync(url);
             response = await result.Content.ReadAsStringAsync();

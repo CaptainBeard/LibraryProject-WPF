@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:library_project_wpf"
         mc:Ignorable="d"
-        Title="Search" Height="450" Width="800">
+        Title="Search" Height="450" Width="900">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20*"/>
@@ -29,7 +29,7 @@
             <ColumnDefinition Width="28*"/>
             <ColumnDefinition Width="13*"/>
         </Grid.ColumnDefinitions>
-        <DataGrid x:Name="gridBooks" Grid.Column="2" Grid.Row="4" d:ItemsSource="{d:SampleData ItemCount=5}" Grid.ColumnSpan="3"/>
+        <DataGrid x:Name="gridBooks" Grid.Column="2" Grid.Row="4" d:ItemsSource="{d:SampleData ItemCount=5}" Grid.ColumnSpan="3" CanUserAddRows="false"/>
         <Button x:Name="btnClose" Grid.Column="4" Content="Close" Grid.Row="8" FontSize="15" Click="btnClose_Click"/>
 
     </Grid>
