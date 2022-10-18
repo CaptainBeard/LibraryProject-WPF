@@ -30,12 +30,17 @@ namespace library_project_wpf
             SearchWindow.Left = this.Left + 150;
             SearchWindow.ShowDialog();
         }
+        private void btnLoans_Click(object sender, RoutedEventArgs e)
+        {
+            Loans LoansWindow = new Loans();
+            LoansWindow.Top = this.Top + 150;
+            LoansWindow.Left = this.Left + 150;
+            LoansWindow.ShowDialog();
+        }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
-
-
     }
 }

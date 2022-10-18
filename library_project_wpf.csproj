@@ -68,6 +68,10 @@
     <Compile Include="LibraryData.xaml.cs">
       <DependentUpon>LibraryData.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Loan.cs" />
+    <Compile Include="Loans.xaml.cs">
+      <DependentUpon>Loans.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pwd.cs" />
     <Compile Include="Search.xaml.cs">
       <DependentUpon>Search.xaml</DependentUpon>
@@ -86,6 +90,10 @@
       <DependentUpon>UserProfile.xaml</DependentUpon>
     </Compile>
     <Page Include="LibraryData.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Loans.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

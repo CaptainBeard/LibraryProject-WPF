@@ -28,7 +28,7 @@
         </Grid.RowDefinitions>
         <TextBlock x:Name="LibraryDatabase" Text="Library database" FontSize="25" Grid.RowSpan="2" Grid.ColumnSpan="5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Button x:Name="btnSearch" Grid.Column="2" Content="Search" Grid.Row="2" FontSize="15" Click="btnSearch_Click"/>
-        <Button x:Name="btnLoans" Grid.Column="2" Content="Loans" Grid.Row="4" FontSize="15"/>
+        <Button x:Name="btnLoans" Grid.Column="2" Content="Loans" Grid.Row="4" FontSize="15" Click="btnLoans_Click"/>
         <Button x:Name="btnClose" Grid.Column="2" Content="Close" Grid.Row="6" FontSize="15" Click="btnClose_Click"/>
     </Grid>
 </Window>
