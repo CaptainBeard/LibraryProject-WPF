@@ -32,9 +32,9 @@
         </Grid.ColumnDefinitions>
         <DataGrid x:Name="gridLoans" Grid.Column="2" Grid.Row="4" d:ItemsSource="{Binding loan_list}" AutoGenerateColumns="False" Grid.ColumnSpan="3">
             <DataGrid.Columns >
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Loan date" Binding="{Binding Loan_date}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Loan end" Binding="{Binding Loan_end}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn Header="Loan date" Binding="{Binding Loan_date, StringFormat={}{0:dd/MM/yyyy}}" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn Header="Loan end" Binding="{Binding Loan_end, StringFormat={}{0:dd/MM/yyyy}}" IsReadOnly="True"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
         <Button x:Name="btnClose" Grid.Column="4" Content="Close" Grid.Row="8" FontSize="15" Click="btnClose_Click"/>
